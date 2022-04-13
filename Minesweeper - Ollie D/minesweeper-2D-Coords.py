@@ -1,6 +1,5 @@
 from tkinter import *
 import random
-import time
 import sys
 print(sys.getrecursionlimit())
 
