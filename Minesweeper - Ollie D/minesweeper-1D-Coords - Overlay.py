@@ -1,7 +1,7 @@
 from tkinter import *
 import random
 import sys
-print(sys.getrecursionlimit())
+print(sys.getrecursionlimit())     
 
 sys.setrecursionlimit(2500)
 
@@ -33,6 +33,7 @@ class Framebuild():
 
     def leftClick(self, event):
         items = self.c.find_closest(event.x, event.y)
+        print(event.x, event.y)
         if items:
             rect_id = items[0]
             self.c.itemconfigure(rect_id, fill="red")
@@ -92,27 +93,40 @@ class Framebuild():
         return(x_coord, y_coord)
 
     def number_generation(self, mine_coords):
+        mine_data_list = []
         for coord in range(1, 101):
             if coord not in mine_coords:
+                mine_data = []
                 mines_prox = self.proximity_check(coord, mine_coords)
                 if mines_prox == 0:
                     print("run the big boy function")
                 if mines_prox == 1:
-                    self.c.itemconfigure(coord, fill="light grey")
+                    mine_data.append(coord)
+                    mine_data.append(1)
                 if mines_prox == 2:
-                    self.c.itemconfigure(coord, fill="gray")
+                    mine_data.append(coord)
+                    mine_data.append(2)
                 if mines_prox == 3:
-                    self.c.itemconfigure(coord, fill="green")
+                    mine_data.append(coord)
+                    mine_data.append(3)
                 if mines_prox == 4:
-                    self.c.itemconfigure(coord, fill="orange")
+                    mine_data.append(coord)
+                    mine_data.append(4)
                 if mines_prox == 5:
-                    self.c.itemconfigure(coord, fill="red")
+                    mine_data.append(coord)
+                    mine_data.append(5)
                 if mines_prox == 6:
-                    self.c.itemconfigure(coord, fill="pink")
+                    mine_data.append(coord)
+                    mine_data.append(6)
                 if mines_prox == 7:
-                    self.c.itemconfigure(coord, fill="purple")
+                    mine_data.append(coord)
+                    mine_data.append(7)
                 if mines_prox == 8:
-                    self.c.itemconfigure(coord, fill="black")
+                    mine_data.append(coord)
+                    mine_data.append(8)
+            mine_data_list.append(mine_data)
+        print(mine_data_list)
+        print(len(mine_data_list))
 
 
     
