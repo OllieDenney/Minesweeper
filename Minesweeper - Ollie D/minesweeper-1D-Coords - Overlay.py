@@ -5,11 +5,19 @@ print(sys.getrecursionlimit())
 
 sys.setrecursionlimit(2500)
 
+"""
+    Limit number of mines to 20
+    
+    If user clicks mine - game end
+    If user clicks number - only show number
+    If user clicks blank square - show all near blank squares
+"""
+
 class Framebuild():
 
     def __init__(self, *args, **kwargs):
         # Setup Canvas
-        self.c = Canvas(root, height=250, width=250, bg='white')
+        self.c = Canvas(root, height=400, width=250, bg='white')
         self.c.pack(fill=BOTH, expand=True)
 
         frame1 = Frame(self.c)
@@ -22,11 +30,14 @@ class Framebuild():
         # Setup binds
         self.c.bind("<ButtonPress-1>", self.leftClick)
 
-        self.menu = Canvas(root, height = 250, width = 250, bg='white')
+        self.menu = Canvas(root, height = 400, width = 250, bg='white')
         self.menu.pack()
         self.c.pack(fill=BOTH, expand=True)
         self.new_game_button = Button(root, text = "New Game", command = self.new_game)
         self.new_game_button.pack()
+
+        self.mine_scale = Scale(root, orient=HORIZONTAL, sliderlength = 15, from_=1, to=20, label="Mine Amount:")
+        self.mine_scale.pack()
 
         frame2 = Frame(self.menu)
         frame2.pack(side='bottom')
@@ -38,6 +49,15 @@ class Framebuild():
             rect_id = items[0]
             self.c.itemconfigure(rect_id, fill="red")
             print(rect_id)
+            self.on_click_decision(rect_id)
+    """
+        def on_click_decision(self, rect_id):
+        for i in 
+        if rect_id in mine_coords:
+            print("dead, kaboom")
+    """
+
+
 
     def createGrid(self, c):
         for x in range(0, 10):
@@ -50,7 +70,7 @@ class Framebuild():
             self.c.update()
     
     def new_game(self):
-        mine_amount = int(input("Mine Amount: "))
+        mine_amount = self.mine_scale.get() #Need to add a confirm mine amount button
         mine_coords = []
         for i in range(mine_amount):
             self.mine_placement()
