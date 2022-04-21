@@ -15,7 +15,7 @@ sys.setrecursionlimit(2500)
 
 class Framebuild():
 
-    def __init__(self, *args, **kwargs):
+    def __init__(self, mine_coords, *args, **kwargs):
         # Setup Canvas
         self.c = Canvas(root, height=400, width=250, bg='white')
         self.c.pack(fill=BOTH, expand=True)
@@ -37,18 +37,24 @@ class Framebuild():
         self.new_game_button.pack()
 
         self.mine_scale = Scale(root, orient=HORIZONTAL, sliderlength = 15, from_=1, to=20, label="Mine Amount:")
-        self.mine_scale.pack()
+        self.mine_scale.pack_forget()
+
+        self.mine_amount_confirm = Button(root, text = "Confirm", command = self.confirm_game)
+        self.mine_amount_confirm.pack_forget()
 
         frame2 = Frame(self.menu)
         frame2.pack(side='bottom')
 
-    def leftClick(self, event):
+        self.mine_coords = mine_coords
+
+    def leftClick(self, event,):
         items = self.c.find_closest(event.x, event.y)
         print(event.x, event.y)
         if items:
             rect_id = items[0]
             self.c.itemconfigure(rect_id, fill="red")
             print(rect_id)
+            print("worked?", self.mine_coords)
             self.on_click_decision(rect_id)
     """
         def on_click_decision(self, rect_id):
@@ -70,13 +76,20 @@ class Framebuild():
             self.c.update()
     
     def new_game(self):
+        print("Show scale and confirm buttons, possibly reset values to nil")
+        self.mine_scale.pack()
+        self.mine_amount_confirm.pack()
+
+
+    def confirm_game(self):
         mine_amount = self.mine_scale.get() #Need to add a confirm mine amount button
-        mine_coords = []
         for i in range(mine_amount):
             self.mine_placement()
-            mine_coords.append(self.mine_coord)
-        print(mine_coords)
-        self.number_generation(mine_coords)
+            self.mine_coords.append(self.mine_coord)
+        print(self.mine_coords)
+        self.mine_scale.pack_forget()
+        self.mine_amount_confirm.pack_forget()
+        self.number_generation(self.mine_coords)
 
 
     def mine_generation(self):
@@ -197,8 +210,9 @@ class Framebuild():
 
 
 
+mine_coords = []
 
 root = Tk()
-gui = Framebuild(root)
+gui = Framebuild(root, mine_coords )
 root.geometry("250x290+0+0")
 root.mainloop()
